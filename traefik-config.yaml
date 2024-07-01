@@ -1,0 +1,19 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    additionalArguments:
+      - "--certificatesresolvers.default.acme.tlschallenge=true"
+      - "--certificatesresolvers.default.acme.email=your-email@example.com"
+      - "--certificatesresolvers.default.acme.storage=/data/acme.json"
+    persistence:
+      enabled: true
+      name: acme-data
+      size: 1Gi
+      accessMode: ReadWriteOnce
+    ingressRoute:
+      tls:
+        secretName: k3s-ingress
